@@ -8,10 +8,11 @@ namespace UIInfoSuite2.UIElements.ExperienceElements;
 
 public class DisplayedExperienceBar
 {
-  private const int MaxBarWidth = 175;
+  private const int MaxBarWidth = 235;
 
   public void Draw(
     Color experienceFillColor,
+    Color textColor,
     Rectangle experienceIconPosition,
     int experienceEarnedThisLevel,
     int experienceDifferenceBetweenLevels,
@@ -24,7 +25,7 @@ public class DisplayedExperienceBar
     Game1.drawDialogueBox(
       (int)leftSide,
       Game1.graphics.GraphicsDevice.Viewport.TitleSafeArea.Bottom - 160,
-      240,
+      300,
       160,
       false,
       true
@@ -63,31 +64,54 @@ public class DisplayedExperienceBar
     {
       Game1.drawWithBorder(
         experienceEarnedThisLevel + "/" + experienceDifferenceBetweenLevels,
-        Color.Black,
-        Color.Black,
+        textColor,
+        textColor,
         new Vector2(leftSide + 33, Game1.graphics.GraphicsDevice.Viewport.TitleSafeArea.Bottom - 70)
       );
     }
     else
     {
-      Game1.spriteBatch.Draw(
-        Game1.mouseCursors,
-        new Vector2(leftSide + 54, Game1.graphics.GraphicsDevice.Viewport.TitleSafeArea.Bottom - 62),
-        experienceIconPosition,
-        Color.White,
-        0,
-        Vector2.Zero,
-        2.9f,
-        SpriteEffects.None,
-        0.85f
-      );
+
+
+      String levelNumber = "";
+      int masteryMargin = 0;
+      if (Game1.player.Level < 25)
+      {
+        Game1.spriteBatch.Draw(
+          Game1.mouseCursors,
+          new Vector2(leftSide + 54, Game1.graphics.GraphicsDevice.Viewport.TitleSafeArea.Bottom - 62),
+          experienceIconPosition,
+          Color.White,
+          0,
+          Vector2.Zero,
+          2.9f,
+          SpriteEffects.None,
+          0.85f
+        );
+        levelNumber = currentLevel.ToString();
+      }
+      else
+      {
+        Game1.spriteBatch.Draw(
+          Game1.mouseCursors_1_6,
+          new Vector2(leftSide + 54, Game1.graphics.GraphicsDevice.Viewport.TitleSafeArea.Bottom - 62),
+          new Rectangle(458,299,10,10),
+          Color.White,
+          0,
+          Vector2.Zero,
+          2.9f,
+          SpriteEffects.None,
+          0.85f
+        );
+        levelNumber = MasteryTrackerMenu.getCurrentMasteryLevel().ToString() ;
+      }
 
       Game1.drawWithBorder(
-        currentLevel.ToString(),
-        Color.Black * 0.6f,
-        Color.Black,
-        new Vector2(leftSide + 33, Game1.graphics.GraphicsDevice.Viewport.TitleSafeArea.Bottom - 70)
-      );
+        levelNumber,
+        textColor * 0.6f,
+        textColor,
+        new Vector2(leftSide + 33 + masteryMargin, Game1.graphics.GraphicsDevice.Viewport.TitleSafeArea.Bottom - 70)
+        );
     }
   }
 
